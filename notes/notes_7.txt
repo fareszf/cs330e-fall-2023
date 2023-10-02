@@ -1,0 +1,44 @@
+
+sets and dicts:
+--------------
+set () will create an empty set
+{} will create an empty dictionary
+
+Sets restirct their members to be hashables and dicts restrict their keys to be hashables (i.e., immutables).
+
+----------
+Lambda and zip
+--------------
+Lambda is an anonymous function that can be created at runtime. 
+Anonymous means that it should not be bound to a name.
+
+>>> def f (x):
+...     return x**2
+>>> g = lambda x: x**2
+>>>
+>>> f(3) == g(3)
+True
+Note that the lambda definition does not include a "return" statement -- 
+it always contains an expression which is returned.
+
+Syntax:
+lambda arg1, arg2, ...argN : expression using arguments
+>>> f = lambda x, y, z: x + y + z
+>>> f(1, 2, 3)
+6
+>>>
+
+Zip:
+zip is a generator that combines two objects in a tuple.
+
+>>> a = [1, 2, 3, 4]
+>>> b = ['a', 'b', 'c', 'd']
+>>> c = zip(a, b)
+>>> c
+<zip object at 0x01939440>
+>>> list(c)
+[(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')]
+>>> list(c)
+[]
+
+
