@@ -1,44 +1,144 @@
+Reduce.py:
+---------
+reduce:
+------
+- reduce is a higher order function. it takes a function 
+  as one of its arguments.
+- mul is a function from a module called operator. 
+  You can think of it as a wrapper for the operator '*'.
+- reduce(binary_function, sequence_of_elements[, Seed: base_case_if_seq_is_empty)]
 
-sets and dicts:
---------------
-set () will create an empty set
-{} will create an empty dictionary
+- Note that the initialization is optional. If it's present, 
+  it will be placed before the items of the iterable in the calculations. 
+  if it's not, and the iterable contains one item, it will return this one item.
 
-Sets restirct their members to be hashables and dicts restrict their keys to be hashables (i.e., immutables).
+  reduce_for_range (bf, a, v) demands a be indexable.
+  reduce_for (bf, a, v) does NOT demand a to be indexable. It should only be iterable.
+ 
+  reduce(add,[],0] #0
+  reduce(add,[])
+  error: no initial value
 
-----------
-Lambda and zip
---------------
-Lambda is an anonymous function that can be created at runtime. 
-Anonymous means that it should not be bound to a name.
+  e.g., reduce(mul, range(1, 4), 1)
+  1*1*2*3
+  e.g., reduce(add, range(1,5), 1) = 1 + 1 + 2 + 3 + 4 
 
->>> def f (x):
-...     return x**2
->>> g = lambda x: x**2
->>>
->>> f(3) == g(3)
+  write the function reduce: reduce(bf, iterable, seed) 
+
+
+- reduce_for_range (bf, a, v) :
+  demands "a" to be indexable
+
+- reduce_for (bf, a, v) :
+  demands "a" to be an iterable
+
+- reduce_while (bf, a, v) :
+  receives an iterable and generates an iterator
+-------------
+
+
+Introduction to iterables (iteration.py): 
+------------------------
+Iterables:
+- an iterable is an object that you can iterate through.
+- iterables usually have the property "__getitem__" 
+  that indicates an object is indexable.
+
+>>> x=[2, 3, 4]
+>>> hasattr(x, "__iter__")
 True
-Note that the lambda definition does not include a "return" statement -- 
-it always contains an expression which is returned.
+>>> hasattr(x, "__getitem__")
+True
+>>> hasattr(x, "__next__")
+False
 
-Syntax:
-lambda arg1, arg2, ...argN : expression using arguments
->>> f = lambda x, y, z: x + y + z
->>> f(1, 2, 3)
-6
+Iterators vs generators:
+- an iterator object is an object that has the "__iter__" and "__next__" attributes.
+- you can get an iterator out of an iterable using the iter function.
+- generator functions allow you to declare a function that behaves like an iterator, 
+  i.e. it can be used in a for loop.
+- every generator is an iterator.
+
+iter(): takes an iterable object and returns an iterator.
+>>> x=[2, 3, 4]
+>>> p = iter(x)
+>>> next(p)
+2
+>>> next(p)
+3
+>>> next(p)
+4
+>>> next(p)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
 >>>
 
-Zip:
-zip is a generator that combines two objects in a tuple.
+Generators:
+----------
 
->>> a = [1, 2, 3, 4]
->>> b = ['a', 'b', 'c', 'd']
->>> c = zip(a, b)
->>> c
-<zip object at 0x01939440>
->>> list(c)
-[(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')]
->>> list(c)
-[]
+yield:
+------
+Yield:
+e.g., 1
+>>>def f() :
+>>>    print("abc")
+>>>    return 5
+>>>    print ("def") # it does not make sense to have code 
+                     # after return unless there is a condition before return.
 
+>>>v = f()
+abc
+>>>print(v)
+5
+-------------------------------
+e.g., 2
+>>>def f() :
+>>>    print("abc")
+>>>    yield 5
+>>>    print("def")
+>>>    yield 6
 
+>>>v = f()
+>>>print(v)
+<generator object f at 0x0096E8A0>
+>>>print(hasattr(v, "__next__"))
+True
+>>>w = next(v)
+abc
+>>>print(w)
+5
+>>>w = next(v) # function starts running from where it left off
+def
+>>>print(w)
+6
+>>> w = next(v) # raises an exception
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+>>>print(w)
+6
+------------------------------------------
+
+>>>def f () :
+>>>	print("abc")
+>>>	yield 5
+>>>	print("def")
+>>>	yield 6
+>>>	print("ghi")
+
+>>>v = f()     # <nothing>
+>>>print(v)    
+<generator object f at .....>
+>>>w = next(v) 
+abc
+>>>print(w)    
+5
+>>>x = next(v) 
+def
+>>>print(x)   
+6
+>>>y = next(v) 
+ghi 
+raise StopIteration
+---------
