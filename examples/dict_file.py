@@ -9,7 +9,8 @@ person = { "name": "John Smith",
 # Converting the Dictionary into a JSON file
 with open('person_to_json.json', 'w') as fp:
     json.dump(person, fp, indent=4)
-    
+
+# Converting a Python object into a JSON string.    
 js = json.dumps(person)   
 assert js ==  '{"name": "John Smith", \
 "age": 35, \
